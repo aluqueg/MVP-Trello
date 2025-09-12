@@ -29,6 +29,7 @@ sequelize.sync({alter: true})
   console.error('Error al sincronizar las tablas:', err);
 });
 
+// Configurar CORS para aceptar solicitudes desde el frontend
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true,
