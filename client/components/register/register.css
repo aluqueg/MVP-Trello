@@ -1,0 +1,23 @@
+.register {
+  border: 1px solid #ccc;
+  padding: 100px;
+  display: flex; 
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px; 
+}
+
+h1 {
+  padding-bottom: 30px;  
+}
+
+input {
+  margin-bottom: 20px;
+  height: 30px;
+  width: 300px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding-left: 10px;
+}
