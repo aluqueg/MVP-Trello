@@ -19,6 +19,14 @@ sequelize.authenticate() // autenticar la conexión
   console.error('No se pudo conectar a la base de datos:', err);
 });
 
+sequelize.sync({alter: true})
+.then(() => {
+  console.log('Todas las tablas fueron sincronizadas correctamente.');
+})
+.catch(err => {
+  console.error('Error al sincronizar las tablas:', err);
+});
+
 app.use(cors( //configuración de cors para aceptar peticiones desde el frontend
   cors({
     origin: 'http://localhost:5173',
