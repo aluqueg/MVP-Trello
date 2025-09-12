@@ -8,12 +8,11 @@ const Boards = sequelize.define('Boards', { // definir el modelo
       primaryKey: true,
     },
   title: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(100),
     allowNull: false, // no puede ser nulo
   },
   description: {
-    type: DataTypes.STRING,
-    allowNull: true, // puede ser nulo
+    type: DataTypes.TEXT,
   },
   created_by: {
     type: DataTypes.BIGINT,

@@ -8,20 +8,20 @@ const User = sequelize.define('User', { // definir el modelo User
       primaryKey: true,
     },
   name: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(100),
     allowNull: false, // no permitir nulos
   },
   email: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(150),
     allowNull: false,
     unique: true, // email único
   },
   password_hash: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(255),
     allowNull: false,
   },
   type: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.TINYINT,
     allowNull: false,
     defaultValue: 2, // 1 = admin, 2 = user
   },
