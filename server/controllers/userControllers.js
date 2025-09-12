@@ -42,6 +42,42 @@ class userControllers {
       console.error(error);
       return res.status(500).json({message: 'Error al crear usuario', error})
     }
-}}
+}
+  async login(req, res) {
+    try{
+      const {email, password} = req.body;
+
+      // Verificar que se hayan proporcionado email y password
+      if(!email || !password){
+        return res.status(400).json({message: 'Credenciales incorrectas'});
+      }
+      // Buscar el usuario por email
+      const user = await User.findOne({where: {email}});
+      if(!user){
+        return res.status(400).json({message: 'usuario no encontrado'});
+      }
+
+      // Verificar la contraseña
+      const validPassword = await bcrypt.compare(password, user.password_hash);
+      if(!validPassword){
+        return res.status(400).json({message: 'Crendenciales incorrectas'});
+      }
+
+      return res.status(200).json({
+        message: 'Login exitoso',
+        user: {
+          id: user.id,
+          email: user.email,
+      }
+    });
+
+    }catch(error){
+      console.error(error);
+      return res.status(500).json({message: 'Error al iniciar sesión', error});
+    }
+}
+}
+
+
 
   module.exports = new userControllers;

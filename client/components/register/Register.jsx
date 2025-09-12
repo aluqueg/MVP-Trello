@@ -1,6 +1,6 @@
 import React from 'react' 
 import './Register.css'
-import { Input, Button, Center } from "@chakra-ui/react"
+import { Input, Button } from "@chakra-ui/react"
 import axios from 'axios'
 
 
@@ -47,7 +47,7 @@ export const Register = ({userRegister, setUserRegister}) => {
           onChange={handleRegister}
           value={userRegister?.name}
            />
-          <Button onClick={handleSubmit}>
+          <Button type="submit">
             Registrarse
           </Button>
         </form>
