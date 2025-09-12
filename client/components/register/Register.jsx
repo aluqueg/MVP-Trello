@@ -40,6 +40,13 @@ export const Register = ({userRegister, setUserRegister}) => {
           onChange={handleRegister}
           value={userRegister?.password}
            />
+          <Input 
+          type='text'
+          placeholder="Nombre"
+          name='name'
+          onChange={handleRegister}
+          value={userRegister?.name}
+           />
           <Button onClick={handleSubmit}>
             Registrarse
           </Button>

@@ -4,6 +4,7 @@ import { Register } from '../components/register/Register';
 import './App.css'
 
   const initialValue = { // Estado inicial del formulario
+    name: "",
     email: "",
     password: "",
   }

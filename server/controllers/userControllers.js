@@ -1,30 +1,47 @@
-const connection = require('../config/db');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 
 class userControllers {
-  createUser(req, res) {
-    let user = req.body; // capturar datos del body
-    const { email, password } = user; // destructuring
-    if (!email || !password) { // validar que vengan los datos
-      return res.status(400).json({ message: "Faltan datos" });
-    }else{
-      let saltRounds = 10; // número de rondas de saltRounds
-      bcrypt.hash(password,saltRounds, (err, hash) => { // hashear la contraseña
-        if(err){ // manejar error
-          return res.status(500).json({ message: "Error al hashear la contraseña" });
-         }else{
-          let data = [email, hash]; // datos a insertar
-          let sql = "INSERT INTO users (email, password) VALUES (?,?)"; // query  
-          connection.query(sql, data, (err, results) => { // ejecutar query
-            if(err){ // manejar error
-              return res.status(500).json({ message: "Error al insertar el usuario" });
-            }else{
-              return res.status(201).json({ message: "Usuario creado", userId: results.insertId });
-            }          
-         })}
-    })
-  }
+  async createUser(req, res) {
+    try{
+      const {email, password, name} = req.body;
+
+      if(!email || !password || !name){
+        return res.status(400).json({message: 'Faltan datos'});
+      }
+
+      // Verificar si el usuario ya existe
+      const userExists = await User.findOne({ where: { email } });
+      if (userExists) {
+        return res.status(400).json({ message: 'El usuario ya existe' });
+      }
+
+      // Hashear la contraseña
+      const saltRounds = 10;
+      const hash = await bcrypt.hash(password, saltRounds);
+
+      // Crear el nuevo usuario
+      const newUser = await User.create({ 
+        email, 
+        password_hash: hash, 
+        name,
+        type: 2  // Asignar el tipo de usuario (2 para usuarios normales)
+       });
+
+      return res.status(201).json({ 
+        message: 'Usuario creado exitosamente', 
+        user: {
+          id: newUser.id,
+          email: newUser.email,
+          name: newUser.name,
+          type: newUser.type
+        }
+       });
+    }catch(error){
+      console.error(error);
+      return res.status(500).json({message: 'Error al crear usuario', error})
+    }
 }}
 
   module.exports = new userControllers;

@@ -11,7 +11,8 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-sequelize.authenticate() // autenticar la conexión
+// autenticar la conexión
+sequelize.authenticate() 
 .then(() => {
   console.log('Conexión a la base de datos establecida correctamente.');
 })
@@ -19,6 +20,7 @@ sequelize.authenticate() // autenticar la conexión
   console.error('No se pudo conectar a la base de datos:', err);
 });
 
+// sincronizar los modelos con la base de datos
 sequelize.sync({alter: true})
 .then(() => {
   console.log('Todas las tablas fueron sincronizadas correctamente.');
@@ -27,12 +29,11 @@ sequelize.sync({alter: true})
   console.error('Error al sincronizar las tablas:', err);
 });
 
-app.use(cors( //configuración de cors para aceptar peticiones desde el frontend
-  cors({
+app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true,
   })
-));
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
