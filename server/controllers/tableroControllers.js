@@ -29,6 +29,24 @@ class TableroControllers {
       console.error(error);
       return res.status(500).json({message: 'Error al crear tablero', error})
     }
+  }
 
+  async getTableros(req, res) {
+    try{
+      const {userId} = req.params;
+
+      if(!userId){
+        return res.status(400).json({message: 'Faltan datos'});
+      }
+      // Obtener los tableros del usuario
+      const boards = await Board.findAll({ where: { created_by: userId } });
+
+      return res.status(200).json({boards});      
+    }catch(error){
+      console.error(error);
+      return res.status(500).json({message: 'Error al obtener tableros', error})
+    }
   }
 }
+
+module.exports = new TableroControllers();
