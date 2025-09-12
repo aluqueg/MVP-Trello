@@ -26,7 +26,7 @@ class userControllers {
         email, 
         password_hash: hash, 
         name,
-        type: 2  // Asignar el tipo de usuario (2 para usuarios normales)
+        type  // Asignar el tipo de usuario (2 para usuarios normales)
        });
 
       return res.status(201).json({ 
@@ -63,11 +63,13 @@ class userControllers {
         return res.status(400).json({message: 'Crendenciales incorrectas'});
       }
 
+      // Si todo es correcto, devolver los datos del usuario (sin la contraseña)
       return res.status(200).json({
-        message: 'Login exitoso',
-        user: {
+          user: {
           id: user.id,
           email: user.email,
+          name: user.name,
+          type: user.type
       }
     });
 

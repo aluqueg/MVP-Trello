@@ -7,6 +7,9 @@ import { Tablero } from "../pages/Tablero/Tablero";
 const initialLogin = {
   email: "",
   password: "",
+  id: null,
+  name: "",
+  type: null
 }
 
 export const AppRoutes = () => {
@@ -15,8 +18,9 @@ const [userLogin, setUserLogin] = useState(initialLogin);
   return (
     <BrowserRouter>
     <Routes>
-      <Route path='/' element={userLogin ? <Home/>:<Tablero />} />
+      <Route path='/' element={userLogin ? <Tablero/>:<Home/>} />
       <Route path='/login' element={<Login userLogin={userLogin} setUserLogin={setUserLogin} />} />
+      <Route path='/tablero' element={<Tablero />} />
     </Routes>
     </BrowserRouter>
   )

@@ -1,11 +1,12 @@
 import { Input, Button } from '@chakra-ui/react'
 import axios from 'axios';
-import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 
 
 export const Login = ({userLogin, setUserLogin}) => {
-  
+  const navigate = useNavigate();
 
   const handleLogin = (e) => { // Maneja los cambios en los inputs del formulario
     const {name, value} = e.target;
@@ -17,7 +18,12 @@ export const Login = ({userLogin, setUserLogin}) => {
     e.preventDefault();
     try{
       const res = await axios.post('http://localhost:3000/api/users/login', userLogin);
-      console.log(res);
+      console.log(res.data)
+      setUserLogin(res.data.user)
+
+      if(res.data.user.type === 2){
+        navigate('/tablero');
+      }
     }catch(error){
       console.error(error);
     }
@@ -34,14 +40,14 @@ export const Login = ({userLogin, setUserLogin}) => {
           placeholder="Email"
           name='email'
           onChange={handleLogin}
-          value={userLogin?.email}
+          value={userLogin?.email || ""}
            />
           <Input 
           type='password'
           placeholder="Contraseña"
           name='password'
           onChange={handleLogin}
-          value={userLogin?.password}
+          value={userLogin?.password || ""}
            />
 
           <Button type="submit">
