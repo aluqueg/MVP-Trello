@@ -3,11 +3,17 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-export const ListaTableros = ({userLogin}) => {
+const initialTablero = {
+  title: "",
+  description: ""
+}
 
+export const ListaTableros = ({userLogin}) => {
   const [tableros, setTableros] = useState([]);
   const navigate = useNavigate();
+  const [nuevoTablero, setNuevoTablero] = useState(initialTablero);
 
+  //Cargar los tableros del usuario ID
   useEffect(() => {
     const fetchTableros = async () => {
       try{
@@ -21,7 +27,12 @@ export const ListaTableros = ({userLogin}) => {
     if(userLogin?.id){
       fetchTableros();
     }
-  },[userLogin])
+  },[userLogin]);
+
+  const handleCrearTablero = () =>{
+    //Lógica para crear tablero
+
+  }
 
   return (
     <Box>
