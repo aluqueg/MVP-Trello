@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ModalCrearTarea } from '../../components/modalCrearTarea/ModalCrearTarea';
+import { ModalEditarTarea } from '../../components/modalEditarTarea/ModalEditarTarea';
 import { TiDelete } from "react-icons/ti";
 import { FaRegEdit } from "react-icons/fa";
 
@@ -21,6 +22,8 @@ export const Tablero = ({userLogin}) => {
   const navigate = useNavigate();
   const [nuevaTarea, setNuevaTarea] = useState(initialTarea)
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [tareaEditar, setTareaEditar] = useState(null)
+  const { isOpen: isOpenEditar, onOpen: onOpenEditar, onClose: onCloseEditar } = useDisclosure();
 
   useEffect(() => {
   const fetchTableroAndTasks = async () => {
@@ -96,9 +99,10 @@ if (!currentTablero){
 
   }
 
+  //Lógica para editar una tarea
   const handleEditarTarea = async (task) => {
     try{
-      const res = await axios.put(`http://localhost:3000/api/tasks/updateTasks/${tasks.id}`,{
+      const res = await axios.put(`http://localhost:3000/api/tasks/updateTasks/${task.id}`,{
         title: task.title,
         description: task.description,
         type: task.type
@@ -111,9 +115,28 @@ if (!currentTablero){
       const done = resTask.data.tasks.filter((t)=> t.type === 3);
       
       setTasks({pending, inProgress, done})
+      onCloseEditar();
+      setTareaEditar(null)
     }catch(error){
       console.error('Error al editar la tarea',error)
     }
+  }
+
+  //Lógica para eliminar una tarea
+  const handleEliminarTarea = async (task_id) => {
+     try{
+      await axios.delete(`http://localhost:3000/api/tasks/deleteTasks/${task_id}`);
+
+      //refrescar las tareas para el frontend
+      const resTask = await axios.get(`http://localhost:3000/api/tasks/getTasks/${tablero_id}`)
+      const pending = resTask.data.tasks.filter((t) => t.type === 1);
+      const inProgress = resTask.data.tasks.filter((t) => t.type === 2);
+      const done = resTask.data.tasks.filter((t) => t.type === 3);
+
+      setTasks({pending, inProgress, done})
+     }catch(error){
+        console.error('Error al eliminar la tarea', error)
+     }
   }
 
   const handleVolver = () => {
@@ -140,8 +163,8 @@ if (!currentTablero){
                 <Text fontSize="sm">{task.description}</Text>
               </CardBody>
               <Box display="flex" justifyContent="flex-end" p={2} gap={2} >
-                <FaRegEdit onClick={handleEditarTarea(task)} />
-                <TiDelete onClick={handleEliminarTarea} />
+                <FaRegEdit onClick={() => {setTareaEditar(task); onOpenEditar();}} />
+                <TiDelete onClick={() => handleEliminarTarea(task.id)} />
               </Box>
             </Card>
           ))}
@@ -157,8 +180,8 @@ if (!currentTablero){
                 <Text fontSize="sm">{task.description}</Text>
               </CardBody>
               <Box display="flex" justifyContent="flex-end" p={2} gap={2} >
-                <FaRegEdit />
-                <TiDelete />
+                <FaRegEdit onClick={() => {setTareaEditar(task); onOpenEditar();}} />
+                <TiDelete onClick={() => handleEliminarTarea(task.id)} />
               </Box>
             </Card>
           ))}
@@ -174,8 +197,8 @@ if (!currentTablero){
                 <Text fontSize="sm">{task.description}</Text>
               </CardBody>
               <Box display="flex" justifyContent="flex-end" p={2} gap={2} >
-                <FaRegEdit />
-                <TiDelete />
+                <FaRegEdit onClick={() => {setTareaEditar(task); onOpenEditar();}} />
+                <TiDelete onClick={() => handleEliminarTarea(task.id)} />
               </Box>
             </Card>
           ))}
@@ -191,6 +214,8 @@ if (!currentTablero){
         </Button>
 
           <ModalCrearTarea isOpen={isOpen} onClose={onClose} nuevaTarea={nuevaTarea} setNuevaTarea={setNuevaTarea} handleCrearTarea={handleCrearTarea}/>
+
+          <ModalEditarTarea isOpen={isOpenEditar} onClose={onCloseEditar} tareaEditar={tareaEditar} setTareaEditar={setTareaEditar} handleEditarTarea={handleEditarTarea}/>
 
       </Box>
     </Box>

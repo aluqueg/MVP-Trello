@@ -9,23 +9,28 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
+  Checkbox, 
+  Select
 } from "@chakra-ui/react";
 
-export const ModalCrearTarea = ({ isOpen, onClose, nuevaTarea, setNuevaTarea, handleCrearTarea }) => {
+export const ModalEditarTablero = ({ isOpen, onClose, tableroEditar, setTableroEditar, handleEditarTableros }) => {
+  
+  if(!tableroEditar) return null;
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Crear nuevo Tarea</ModalHeader>
+        <ModalHeader>Editar Tarea</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
           <FormControl>
             <FormLabel>Título</FormLabel>
             <Input
               placeholder="Título de la tarea"
-              value={nuevaTarea.title}
-              onChange={(e) => setNuevaTarea({ ...nuevaTarea, title: e.target.value })}
+              value={tableroEditar.title}
+              onChange={(e) => setTableroEditar({ ...tableroEditar, title: e.target.value })}
             />
           </FormControl>
 
@@ -33,15 +38,15 @@ export const ModalCrearTarea = ({ isOpen, onClose, nuevaTarea, setNuevaTarea, ha
             <FormLabel>Descripción</FormLabel>
             <Input
               placeholder="Descripción de la tarea"
-              value={nuevaTarea.description}
-              onChange={(e) => setNuevaTarea({ ...nuevaTarea, description: e.target.value })}
+              value={tableroEditar.description}
+              onChange={(e) => setTableroEditar({ ...tableroEditar, description: e.target.value })}
             />
           </FormControl>
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="teal" mr={3} onClick={handleCrearTarea}>
-            Crear
+          <Button colorScheme="teal" mr={3} onClick={() => handleEditarTableros(tableroEditar)}>
+            Guardar Cambios
           </Button>
           <Button onClick={onClose}>Cancelar</Button>
         </ModalFooter>

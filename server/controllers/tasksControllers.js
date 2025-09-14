@@ -1,6 +1,7 @@
 const Task = require('../models/task');
 
 class TasksControllers {
+  //Traer tareas
   async getTasks(req,res){
     try{
       const {tablero_id} = req.params
@@ -18,6 +19,7 @@ class TasksControllers {
     }
   }
 
+  //Crear tareas
   async createTasks(req,res){
     try{
       const {title, description, type, tablero_id, created_by} = req.body;
@@ -52,6 +54,7 @@ class TasksControllers {
     }
   }
 
+  //Editar tareas
   async editTasks(req, res){
     const {task_id} = req.params;
     const {title, description, type} = req.body;
@@ -76,6 +79,7 @@ class TasksControllers {
       }
 }
 
+  //Eliminar tareas
   async deleteTasks(req, res){
     const {task_id} = req.params;
 
