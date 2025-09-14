@@ -20,8 +20,8 @@ class TasksControllers {
 
   async createTasks(req,res){
     try{
-      const {title, description, type, tablero_id} = req.body;
-      const {created_by} = req.params;
+      const {title, description, type, tablero_id, created_by} = req.body;
+      
 
       if(!title || !type || !tablero_id){
         return res.status(400).json({message: 'Faltan datos'});

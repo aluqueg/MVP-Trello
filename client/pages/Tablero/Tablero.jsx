@@ -1,13 +1,24 @@
-import { Box, Button, Heading, Text, SimpleGrid, VStack, Card, CardBody } from '@chakra-ui/react';
+import { Box, Button, Heading, Text, SimpleGrid, VStack, Card, CardBody, useDisclosure } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { ModalCrearTarea } from '../../components/modalCrearTarea/ModalCrearTarea';
+
+const initialTarea = {
+  title: "",
+  description: "",
+  type: 1, // 1: pendiente, 2: en progreso, 3: hecho
+  tablero_id: null,
+  created_by: null
+}
 
 export const Tablero = ({userLogin}) => {
   const {user_id, tablero_id} = useParams();
   const [currentTablero, setCurrentTablero] = useState(null);
   const [tasks, setTasks] = useState({pending: [], inProgress: [], done: []});
   const navigate = useNavigate();
+  const [nuevaTarea, setNuevaTarea] = useState(initialTarea)
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
   const fetchTableroAndTasks = async () => {
@@ -48,6 +59,40 @@ if (!currentTablero){
       </Box>
   )
 }
+
+  const handleCrearTarea = async () => {
+    //Lógica para crear tarea
+    try{
+      const res = await axios.post('http://localhost:3000/api/tasks/createTasks', {
+        title: nuevaTarea.title,
+        description: nuevaTarea.description,
+        type: nuevaTarea.type,
+        tablero_id: currentTablero.id,
+        created_by: user_id
+      })
+
+      //Actualizar lista de tareas
+      setTasks((prevTasks) => {
+        const updatedTasks = { ...prevTasks };
+        // Agregar la nueva tarea a la columna correspondiente
+        if (nuevaTarea.type === 1) {
+          updatedTasks.pending.push(res.data.task);
+        } else if (nuevaTarea.type === 2) {
+          updatedTasks.inProgress.push(res.data.task);
+        } else if (nuevaTarea.type === 3) {
+          updatedTasks.done.push(res.data.task);
+        }
+        return updatedTasks;
+      });
+
+      //Cerrar modal y resetear formulario
+      setNuevaTarea(initialTarea);
+      onClose();
+    }catch(error){
+      console.error("Error al crear la tarea", error);
+    }
+
+  }
 
   const handleVolver = () => {
     navigate('/tablero')
@@ -107,9 +152,12 @@ if (!currentTablero){
         <Button mt={6} colorScheme="teal" onClick={handleVolver}>
           Volver a la lista de tableros
         </Button>
-        <Button mt={6} colorScheme="teal" onClick={handleVolver}>
+        <Button mt={6} colorScheme="teal" onClick={onOpen}>
           Crear nueva tarea
         </Button>
+
+          <ModalCrearTarea isOpen={isOpen} onClose={onClose} nuevaTarea={nuevaTarea} setNuevaTarea={setNuevaTarea} handleCrearTarea={handleCrearTarea}/>
+
       </Box>
     </Box>
   )

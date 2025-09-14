@@ -6,6 +6,6 @@ var router = express.Router();
 router.get('/getTasks/:tablero_id', tasksControllers.getTasks); 
 
 //ruta para crear una tareas
-router.post('/createTask', tasksControllers.createTasks);
+router.post('/createTasks', tasksControllers.createTasks);
 
 module.exports = router;
