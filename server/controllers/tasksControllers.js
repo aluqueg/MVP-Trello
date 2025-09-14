@@ -51,6 +51,51 @@ class TasksControllers {
         res.status(500).json({message: 'Error al crear la tarea', error})
     }
   }
+
+  async editTasks(req, res){
+    const {task_id} = req.params;
+    const {title, description, type} = req.body;
+
+    try{
+      if(!task_id){
+        return res.status(400).json({message: 'Faltan datos'});
+      }
+      //Editar la tarea
+        await Task.update({
+          title: title,
+          description: description,
+          type: type
+        },{
+          where: {id: task_id}  
+        })
+
+        return res.status(200).json({message: 'Tarea editada correctamente'})
+    }catch(error){
+        console.error(error);
+        res.statuts(500).json({message: 'Error al editar la tarea', error})
+      }
+}
+
+  async deleteTasks(req, res){
+    const {task_id} = req.params;
+
+    try{
+      if(!task_id){
+        return res.status(400).json({message: 'Faltan datos'});
+      }
+
+      //Eliminar la tarea
+        await Task.destroy({
+          where: {id: task_id}});
+
+          return res.status(200).json({message: 'Tarea eliminada correctamente'});
+    }catch(error){
+      console.error(error)
+      res.status(500).json({message: 'Error al eliminar la tarea', error});
+    }  
+  }
+
+
 }
 
 module.exports = new TasksControllers();

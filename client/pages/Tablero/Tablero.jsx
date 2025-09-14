@@ -3,6 +3,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ModalCrearTarea } from '../../components/modalCrearTarea/ModalCrearTarea';
+import { TiDelete } from "react-icons/ti";
+import { FaRegEdit } from "react-icons/fa";
 
 const initialTarea = {
   title: "",
@@ -94,6 +96,14 @@ if (!currentTablero){
 
   }
 
+  const handleEditarTarea = () => {
+    try{
+      const res = axios.put(`http://localhost:3000/api/tasks/updateTasks/${tasks.id}`)
+    }catch(error){
+
+    }
+  }
+
   const handleVolver = () => {
     navigate('/tablero')
   }
@@ -117,6 +127,10 @@ if (!currentTablero){
                 <Heading size="xs">{task.title}</Heading>
                 <Text fontSize="sm">{task.description}</Text>
               </CardBody>
+              <Box display="flex" justifyContent="flex-end" p={2} gap={2} >
+                <FaRegEdit onClick={handleEditarTarea(task)} />
+                <TiDelete onClick={handleEliminarTarea} />
+              </Box>
             </Card>
           ))}
         </VStack>
@@ -130,6 +144,10 @@ if (!currentTablero){
                 <Heading size="xs">{task.title}</Heading>
                 <Text fontSize="sm">{task.description}</Text>
               </CardBody>
+              <Box display="flex" justifyContent="flex-end" p={2} gap={2} >
+                <FaRegEdit />
+                <TiDelete />
+              </Box>
             </Card>
           ))}
         </VStack>
@@ -143,6 +161,10 @@ if (!currentTablero){
                 <Heading size="xs">{task.title}</Heading>
                 <Text fontSize="sm">{task.description}</Text>
               </CardBody>
+              <Box display="flex" justifyContent="flex-end" p={2} gap={2} >
+                <FaRegEdit />
+                <TiDelete />
+              </Box>
             </Card>
           ))}
         </VStack>
