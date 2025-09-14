@@ -72,7 +72,7 @@ class TasksControllers {
         return res.status(200).json({message: 'Tarea editada correctamente'})
     }catch(error){
         console.error(error);
-        res.statuts(500).json({message: 'Error al editar la tarea', error})
+        res.status(500).json({message: 'Error al editar la tarea', error})
       }
 }
 

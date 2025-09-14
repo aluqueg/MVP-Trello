@@ -96,11 +96,23 @@ if (!currentTablero){
 
   }
 
-  const handleEditarTarea = () => {
+  const handleEditarTarea = async (task) => {
     try{
-      const res = axios.put(`http://localhost:3000/api/tasks/updateTasks/${tasks.id}`)
-    }catch(error){
+      const res = await axios.put(`http://localhost:3000/api/tasks/updateTasks/${tasks.id}`,{
+        title: task.title,
+        description: task.description,
+        type: task.type
+      })
 
+      //refrescar las tareas para actulizar frontend
+      const resTask = await axios.get(`http://localhost:3000/api/tasks/getTasks/${tablero_id}`);
+      const pending = resTask.data.tasks.filter((t)=> t.type === 1);
+      const inProgress = resTask.data.tasks.filter((t)=> t.type === 2);
+      const done = resTask.data.tasks.filter((t)=> t.type === 3);
+      
+      setTasks({pending, inProgress, done})
+    }catch(error){
+      console.error('Error al editar la tarea',error)
     }
   }
 
