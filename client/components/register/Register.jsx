@@ -1,6 +1,6 @@
 import React from 'react' 
 import './Register.css'
-import { Input, Button } from "@chakra-ui/react"
+import { Input, Button, Heading } from "@chakra-ui/react"
 import axios from 'axios'
 
 
@@ -24,7 +24,7 @@ export const Register = ({userRegister, setUserRegister}) => {
   return (
     <div className='container'>
       <div className='register'>
-        <h1>Formulario de registro</h1>
+        <Heading>Formulario de registro</Heading>
         <form onSubmit={handleSubmit}>
           <Input
           type='email' 

@@ -1,4 +1,4 @@
-import { Input, Button } from '@chakra-ui/react'
+import { Input, Button, Heading } from '@chakra-ui/react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,7 +33,7 @@ export const Login = ({userLogin, setUserLogin}) => {
   return (
         <div className='container'>
       <div className='register'>
-        <h1>Logueate</h1>
+        <Heading>Logueate</Heading>
         <form onSubmit={handleSubmit}>
           <Input
           type='email' 
