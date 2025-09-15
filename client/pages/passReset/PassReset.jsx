@@ -9,10 +9,13 @@ export const PassReset = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
+  //funcion para resetear contraseña
   const handleReset = async () => {
     try{
+      //trae token de localStorage
       const token = localStorage.getItem('resetToken')
       if(!token){
+        //Mensaje si no hay token
         toast({
           title: "Error",
           description: "No hay token en localStorage",
@@ -23,10 +26,13 @@ export const PassReset = () => {
         return;
       }
 
+      //llamada al backend enviando el token y el newPassword
       await axios.post('http://localhost:3000/api/auth/reset-password', {token, newPassword});
 
+      //se elimina el token de localStorage
       localStorage.removeItem('resetToken');
 
+      //Mensaje de exito
       toast({
         title: "Éxito",
         description: "Contraseña actualizada",
@@ -37,6 +43,7 @@ export const PassReset = () => {
 
       navigate('/login')
     }catch(error){
+      //mensaje si no se pudo actualizar
       toast({
         title: "Error",
         description: error.response?.data?.message || "No se pudo actualizar la contraseña",

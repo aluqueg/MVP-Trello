@@ -25,6 +25,7 @@ export const PassRecovery = () => {
 
       navigate('/passReset')
     }catch(error){
+          //mensaje temporal de error
           toast({
             title: "Error",
             description: error.response?.data?.message || "No se pudo generar el token",
