@@ -150,6 +150,7 @@ MVP-Trello/
 `PUT /api/tasks/updateTasks/:task_id` → Editar tarea
 
 `DELETE /api/tasks/deleteTasks/:task_id` → Eliminar tarea
+
 -----------------------------------------
 
 **🖥️ Uso**
@@ -165,6 +166,7 @@ Edita tareas y cámbialas de estado para moverlas entre columnas.
 Elimina tareas o tableros cuando quieras.
 
 Recupera tu contraseña desde la pantalla de login (flujo simulado con token).
+
 -------------------------------------
 
 **🛠️ Tecnologías utilizadas**
@@ -178,6 +180,7 @@ Base de datos: MySQL
 Autenticación: JWT + bcrypt
 
 Control de versiones: GitHub
+
 --------------------------------------
 
 ## 📌 Notas
@@ -185,6 +188,7 @@ Control de versiones: GitHub
 Por simplicidad, el sistema de **recuperación de contraseña** guarda el token en **localStorage** en lugar de enviar un correo real.
 
 El backend está configurado para permitir solicitudes desde http://localhost:5173 (puerto por defecto de Vite).
+
 --------------------------------------
 
 Desarrollado por Álvaro Luque 🚀
