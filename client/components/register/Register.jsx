@@ -2,9 +2,11 @@ import React from 'react'
 import './Register.css'
 import { Input, Button, Heading } from "@chakra-ui/react"
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 
 export const Register = ({userRegister, setUserRegister}) => {
+  const navigate = useNavigate();
 
   const handleRegister = (e) => { // Maneja los cambios en los inputs del formulario
     const {name, value} = e.target;
@@ -15,7 +17,7 @@ export const Register = ({userRegister, setUserRegister}) => {
     e.preventDefault();
     try {
       const res = await axios.post('http://localhost:3000/api/users/createUser', userRegister);
-      console.log(res);
+      navigate('/login');      
     } catch (error) {
       console.error(error);
     }

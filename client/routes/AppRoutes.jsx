@@ -17,7 +17,7 @@ const initialLogin = {
 
 export const AppRoutes = () => {
 const [userLogin, setUserLogin] = useState(initialLogin);
-const [tablero, setTablero] = useState(null);
+
 
   return (
     <BrowserRouter>

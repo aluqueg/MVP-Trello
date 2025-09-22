@@ -26,7 +26,7 @@ class userControllers {
         email, 
         password_hash: hash, 
         name,
-        type  // Asignar el tipo de usuario (2 para usuarios normales)
+        type: 2  // Asignar el tipo de usuario (2 para usuarios normales)
        });
 
       return res.status(201).json({ 
